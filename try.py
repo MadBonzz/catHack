@@ -1,7 +1,16 @@
 import function_calling
+import transcription_functions
+import os
+from dotenv import load_dotenv
 
-text = "The battery looks fine"
+WHISPER_API_URL = "https://api-inference.huggingface.co/models/openai/whisper-small"
+header = {"Authorization": 'Bearer '+str(os.getenv('HF_API_KEY'))}
+print(header)
 
-output = function_calling.check_battery_leak(text)
+text = transcription_functions.query('Recording.flac', WHISPER_API_URL, header)
 
-print(output.candidates[0].content.parts[0].function_call)
+text = ""
+
+output = function_calling.check_brakes(text)
+
+print(output)
